@@ -3,6 +3,7 @@ package dk.kea.dat3js.hogwarts5.students;
 import dk.kea.dat3js.hogwarts5.house.House;
 import jakarta.persistence.*;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
@@ -30,6 +31,31 @@ public class Student {
     this.lastName = lastName;
     this.house = house;
     this.schoolYear = schoolYear;
+  }
+
+  public String getFullName() {
+    return firstName + " " + (middleName!=null?middleName+" ":"") + lastName;
+  }
+
+  public void setFullName(String fullName) {
+    if (fullName == null) {
+      throw new IllegalArgumentException("Full name cannot be null");
+    }
+
+    String[] names = fullName.split(" ");
+    if (names.length >= 2) {
+      setFirstName(names[0]);
+      setLastName(names[names.length - 1]);
+
+      if (names.length > 2) {
+        String middleName = String.join(" ", Arrays.copyOfRange(names, 1, names.length - 1));
+        setMiddleName(middleName);
+      } else {
+        setMiddleName(null);
+      }
+    } else {
+      throw new IllegalArgumentException("Invalid full name");
+    }
   }
 
   public int getId() {
