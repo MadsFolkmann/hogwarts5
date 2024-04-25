@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 public class Student {
@@ -58,6 +59,15 @@ public class Student {
     }
   }
 
+  private String capitalize(String name) {
+    if (name.contains(" ")) {
+      int space = name.indexOf(" ");
+      return capitalize(name.substring(0, space))+ " " + capitalize(name.substring(space+1));
+    } else {
+      return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+    }
+  }
+
   public int getId() {
     return id;
   }
@@ -71,7 +81,7 @@ public class Student {
   }
 
   public void setFirstName(String firstName) {
-    this.firstName = firstName;
+    this.firstName = capitalize(firstName);
   }
 
   public String getMiddleName() {
@@ -79,7 +89,12 @@ public class Student {
   }
 
   public void setMiddleName(String middleName) {
-    this.middleName = middleName;
+    if (middleName != null) {
+      this.middleName = Arrays.stream(middleName.split(" "))
+              .map(this::capitalize).collect(Collectors.joining(" "));
+    } else {
+      this.middleName = null;
+    }
   }
 
   public String getLastName() {
@@ -87,7 +102,7 @@ public class Student {
   }
 
   public void setLastName(String lastName) {
-    this.lastName = lastName;
+    this.lastName = capitalize(lastName);
   }
 
   public House getHouse() {

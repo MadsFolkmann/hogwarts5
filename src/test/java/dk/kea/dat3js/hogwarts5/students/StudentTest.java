@@ -116,4 +116,34 @@ class StudentTest {
         //act
         assertThrows(IllegalArgumentException.class, () -> student.setFullName(null));
     }
+
+    @Test
+    void CapitalizeIndividualNames() {
+        //arrange
+        Student student = new Student("harry", "james", "potter", null, 1);
+
+        //act
+        student.setFullName("harry james potter");
+
+        //assert
+        assertEquals("Harry", student.getFirstName());
+        assertEquals("James", student.getMiddleName());
+        assertEquals("Potter", student.getLastName());
+    }
+
+    @Test
+    void CapitalizeIndividualNamesWithCrazyCapitalization() {
+        //arrange
+        Student student = new Student("hArRy", "JaMeS", "pOtTeR", null, 1);
+
+        //act
+        student.setFirstName("hArRy");
+        student.setMiddleName("JaMeS");
+        student.setLastName("pOtTeR");
+
+        //assert
+        assertEquals("Harry", student.getFirstName());
+        assertEquals("James", student.getMiddleName());
+        assertEquals("Potter", student.getLastName());
+}
 }
