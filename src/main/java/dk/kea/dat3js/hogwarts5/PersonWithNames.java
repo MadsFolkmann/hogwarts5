@@ -34,12 +34,18 @@ public interface PersonWithNames {
         }
     }
 
-    default String capitalize(String name) {
-        if (name.contains(" ")) {
-            int space = name.indexOf(" ");
-            return capitalize(name.substring(0, space))+ " " + capitalize(name.substring(space+1));
-        } else {
-            return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+    default String capitalize(String name){
+        if (name == null || name.isEmpty()){
+            return name;
         }
+        String[] parts = name.split(" ");
+        for (int i = 0; i < parts.length; i++) {
+            if (parts[i].startsWith("Mc") && parts[i].length() > 2) {
+                parts[i] = parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1, 2).toLowerCase() + parts[i].substring(2, 3).toUpperCase() + parts[i].substring(3).toLowerCase();
+            } else {
+                parts[i] = parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1).toLowerCase();
+            }
+        }
+        return String.join(" ", parts);
     }
 }
